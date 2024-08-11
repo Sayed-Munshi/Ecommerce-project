@@ -1,31 +1,92 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+@extends('layouts.frontend_master')
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
+@push('css')
+    <style>
+        .resend-btn {
+            background-color: #dddddd;
+            border: none;
+            color: black;
+            padding: 12px 24px;
+            border-radius: 3px;
+            font-weight: 500;
+            transition: all ease-in-out .5s;
+        }
 
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
+        .resend-btn:hover {
+            opacity: .8;
+        }
 
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+        .verify-email {
+            font-size: 15px;
+        }
+    </style>
+@endpush
+
+@section('content')
+<div class="section-b-space">
+    <!-- Breadcrumb Section Start -->
+    <section class="breadcrumb-section pt-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="breadcrumb-contain">
+              <h2 class="mb-2">Verify your account</h2>
+              <nav>
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item">
+                    <a href="{{ route('home') }}">
+                      <i class="fa-solid fa-house"></i>
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item active">Verify Email</li>
+                </ol>
+              </nav>
             </div>
-        </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Breadcrumb Section End -->
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+    <!-- verify email section start -->
+    <main class="log-in-section background-image-2 section-b-space">
+        <div class="container-fluid-lg w-100">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-sm-12 mx-auto">
+                    <div class="input-box">
+                        <div class="col-12">
+                            <div class="mb-4 verify-email">
+                                {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+                            </div>
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
-    </div>
-</x-guest-layout>
+                            @if (session('status') == 'verification-link-sent')
+                                <strong class="mb-4 text-success">
+                                    {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+                                </strong>
+                            @endif
+                            
+                            <div class="mt-4 d-flex align-items-center justify-content-between">
+                                <form method="POST" action="{{ route('verification.send') }}">
+                                    @csrf
+                                    <div>
+                                        <button class="resend-btn" type="submit" >Resend Verification Email</button>
+                                    </div>
+                                </form>
+                                
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-animation">
+                                        {{ __('Log Out') }}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- verify email section end -->
+</div>
+@endsection
+
