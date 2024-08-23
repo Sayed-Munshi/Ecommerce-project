@@ -16,6 +16,16 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
+                'name' => 'FastKart',
+                'email' => 'fastkart@mailinator.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('Pa$$w0rd!'),
+                'photo' => Null,
+                'role' => 'SUPER ADMIN',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'email_verified_at' => now(),
@@ -26,12 +36,22 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'User',
-                'email' => 'user@gmail.com',
+                'name' => 'Seller',
+                'email' => 'seller@gmail.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('pass'),
                 'photo' => NULL,
-                'role' => 'USER',
+                'role' => 'SELLER',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Customer',
+                'email' => 'customer@gmail.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('pass'),
+                'photo' => NULL,
+                'role' => 'CUSTOMER',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

@@ -24,30 +24,36 @@
                             <table class="table all-package theme-table dataTable no-footer" id="table_id">
                                 <thead>
                                     <tr>
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">SL</th>
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">NAME</th>
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">EMAIL</th>
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">ROLE</th>
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">CREATED</th>
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">Option</th>
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">SL
+                                        </th>
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">
+                                            NAME</th>
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">
+                                            EMAIL</th>
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">
+                                            ROLE</th>
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">
+                                            CREATED</th>
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 170px;">
+                                            Option</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    @forelse ($admins as $admin) 
+                                    @forelse ($admins as $admin)
                                         <tr>
                                             <td class="text-center">
                                                 {{ $loop->index + 1 }}
                                             </td>
-    
+
                                             <td>
                                                 <div class="user-name">
                                                     <span>{{ $admin->name }}</span>
                                                 </div>
                                             </td>
-    
+
                                             <td>{{ $admin->email }}</td>
-    
+
                                             <td>
                                                 <div class="badge badge-primary">
                                                     {{ $admin->role }}
@@ -55,11 +61,11 @@
                                             </td>
 
                                             <td>{{ $admin->created_at->diffForHumans() }}</td>
-    
+
                                             <td>
                                                 <ul>
                                                     <li>
-                                                        <a href="{{ route('delete.admin', $admin->id) }}">
+                                                        <a href="{{ route('delete.user', $admin->id) }}">
                                                             <i class="ri-delete-bin-line"></i>
                                                         </a>
                                                     </li>

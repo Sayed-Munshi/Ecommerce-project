@@ -10,8 +10,10 @@
     <meta name="keywords"
         content="admin template, Fastkart admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('backend') }}/assets/images/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('backend') }}/assets/images/favicon.png" type="image/x-icon">
+
     <title>Fastkart - Dashboard</title>
 
     <!-- Google font-->
@@ -24,7 +26,9 @@
 
     <!-- fontawesome css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('backend') }}/assets/css/vendors/font-awesome.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Themify icon css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('backend') }}/assets/css/vendors/themify.css">
@@ -73,14 +77,17 @@
                 <div class="header-logo-wrapper p-0">
                     <div class="logo-wrapper">
                         <a href="index.html">
-                            <img class="img-fluid main-logo" src="{{ asset('backend') }}/assets/images/logo/1.png" alt="logo">
-                            <img class="img-fluid white-logo" src="{{ asset('backend') }}/assets/images/logo/1-white.png" alt="logo">
+                            <img class="img-fluid main-logo" src="{{ asset('backend') }}/assets/images/logo/1.png"
+                                alt="logo">
+                            <img class="img-fluid white-logo"
+                                src="{{ asset('backend') }}/assets/images/logo/1-white.png" alt="logo">
                         </a>
                     </div>
                     <div class="toggle-sidebar">
                         <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
                         <a href="index.html">
-                            <img src="{{ asset('backend') }}/assets/images/logo/1.png" class="img-fluid" alt="">
+                            <img src="{{ asset('backend') }}/assets/images/logo/1.png" class="img-fluid"
+                                alt="">
                         </a>
                     </div>
                 </div>
@@ -102,6 +109,7 @@
                 </form> --}}
                 <div class="nav-right col-6 pull-right right-header p-0">
                     <ul class="nav-menus">
+                        {{-- Notification --}}
                         <li>
                             <span class="header-search">
                                 <i class="ri-search-line"></i>
@@ -147,42 +155,33 @@
                             </ul>
                         </li>
 
+                        {{-- Mode --}}
                         <li>
                             <div class="mode">
                                 <i class="ri-moon-line"></i>
                             </div>
                         </li>
+
+                        {{-- User --}}
                         <li class="profile-nav onhover-dropdown pe-0 me-0">
                             <div class="media profile-media">
-                                @if (Auth::user()->photo)
-                                    <img class="user-profile rounded-circle" src="{{ asset('uploads') }}/users_photo/admin/{{ Auth::user()->photo }}" alt="profile pic" />
-                                @else
-                                    <img class="user-profile rounded-circle" src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}?rounded=true?background=random?bold=true" alt="avatar"/>
-                                @endif
+
+                                {{-- <img class="user-profile rounded-circle"
+                                    src="{{ url('/') . '/storage/images/user_photos/' . Auth::user()->photo }}"
+                                    alt="photo" /> --}}
+                                <img class="user-profile rounded-circle"
+                                    src="{{ App\Helpers\ImageHelper::makeProfileImage(Auth::user()->photo) }}"
+                                    alt="photo" />
+
                                 <div class="user-name-hide media-body">
                                     <span>{{ Auth::user()->name }}</span>
-                                    <p class="mb-0 font-roboto">{{ Auth::user()->role }}<i class="middle ri-arrow-down-s-line"></i></p>
+                                    <p class="mb-0 font-roboto">
+                                        {{ Auth::user()->role }}
+                                        <i class="middle ri-arrow-down-s-line"></i>
+                                    </p>
                                 </div>
                             </div>
                             <ul class="profile-dropdown onhover-show-div">
-                                {{-- <li>
-                                    <a href="all-users.html">
-                                        <i data-feather="users"></i>
-                                        <span>Users</span>
-                                    </a>
-                                </li>
-                                 <li>
-                                    <a href="order-list.html">
-                                        <i data-feather="archive"></i>
-                                        <span>Orders</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="support-ticket.html">
-                                        <i data-feather="phone"></i>
-                                        <span>Spports Tickets</span>
-                                    </a>
-                                </li> --}}
                                 <li>
                                     <a href="{{ route('settings') }}">
                                         <i data-feather="settings"></i>
@@ -192,8 +191,9 @@
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                    
-                                        <a :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+
+                                        <a :href="route('logout')"
+                                            onclick="event.preventDefault(); this.closest('form').submit();">
                                             <i data-feather="log-out"></i>
                                             <span>Log out</span>
                                         </a>
@@ -215,7 +215,8 @@
                 <div>
                     <div class="logo-wrapper logo-wrapper-center">
                         <a href="{{ route('dashboard') }}">
-                            <img class="img-fluid for-white" src="{{ asset('backend') }}/assets/images/logo/full-white.png" alt="logo">
+                            <img class="img-fluid for-white"
+                                src="{{ asset('backend') }}/assets/images/logo/full-white.png" alt="logo">
                         </a>
                         <div class="back-btn">
                             <i class="fa fa-angle-left"></i>
@@ -226,9 +227,10 @@
                     </div>
                     <div class="logo-icon-wrapper">
                         <a href="{{ route('dashboard') }}">
-                            <img class="img-fluid main-logo main-white" src="{{ asset('backend') }}/assets/images/logo/logo.png" alt="logo">
-                            <img class="img-fluid main-logo main-dark" src="{{ asset('backend') }}/assets/images/logo/logo-white.png"
-                                alt="logo">
+                            <img class="img-fluid main-logo main-white"
+                                src="{{ asset('backend') }}/assets/images/logo/logo.png" alt="logo">
+                            <img class="img-fluid main-logo main-dark"
+                                src="{{ asset('backend') }}/assets/images/logo/logo-white.png" alt="logo">
                         </a>
                     </div>
                     <nav class="sidebar-main">
@@ -276,6 +278,7 @@
                                         <i class="ri-store-3-line"></i>
                                         <span>Product</span>
                                     </a>
+
                                     <ul class="sidebar-submenu">
                                         <li>
                                             <a href="{{ route('categories') }}">Category List</a>
@@ -292,9 +295,15 @@
                                         <li>
                                             <a href="{{ route('subcategory') }}">Add Sub Category</a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('products') }}">Product List</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('product') }}">Add Product</a>
+                                        </li>
                                     </ul>
                                 </li>
-                                
+
                                 {{-- Report --}}
                                 <li class="sidebar-list">
                                     <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
@@ -320,7 +329,20 @@
 
             <!-- index body start -->
             <div class="page-body">
-                <div class="container-fluid">
+                <div class="container">
+                    {{-- @if ($errors->any() || session('error') || session('success'))
+                        <div class="alert alert-warning">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            @if (session('error'))
+                                <li>{{ session('error') }}</li>
+                            @endif
+                            @if (session('success'))
+                                <li>{{ session('success') }}</li>
+                            @endif
+                        </div>
+                    @endif --}}
                     @yield('content')
                 </div>
                 <!-- Container-fluid Ends-->
@@ -394,6 +416,9 @@
 
     <!-- Theme js -->
     <script src="{{ asset('backend') }}/assets/js/script.js"></script>
+
+    <!-- custom js  -->
+    <script src="{{ asset('backend') }}/assets/js/custom/custom.js"></script>
 </body>
 
 </html>

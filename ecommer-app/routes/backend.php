@@ -4,7 +4,7 @@ use App\Http\Controllers\AdminRegistrationController;
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileSettingsController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
@@ -20,10 +20,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-/**
- * Backend Area
-*/
 Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function() {
     Route::get('/', [BackendController::class, 'dashboard'])->name('dashboard');
 
@@ -35,7 +31,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function() {
         Route::get('/customers', [AdminUsersController::class, 'admin_customers'])->name('admin.customers');
         Route::get('/sellers', [AdminUsersController::class, 'admin_sellers'])->name('admin.sellers');
         Route::get('/admins', [AdminUsersController::class, 'admin_admins'])->name('admin.admins');
-        Route::get('/delete-admin/{id}', [AdminUsersController::class, 'delete_admin'])->name('delete.admin');
+        Route::get('/delete-admin/{id}', [AdminUsersController::class, 'delete'])->name('delete.user');
 
         Route::get('/admin-registration', [AdminRegistrationController::class, 'admin_registration'])->name('admin.registration');
         Route::post('/add-admin', [AdminRegistrationController::class, 'add_admin'])->name('add.admin');
@@ -43,16 +39,23 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function() {
 
     Route::prefix('category')->group(function() {
         Route::get('/', [CategoryController::class, 'category'])->name('category');
-        Route::post('/add', [CategoryController::class, 'add_category'])->name('add.category');
+        Route::post('/store-category', [CategoryController::class, 'store'])->name('store.category');
         Route::get('/categories', [CategoryController::class, 'categories'])->name('categories');
-        Route::get('/delete/{id}', [CategoryController::class, 'delete_category'])->name('delete.category');
+        Route::get('/delete-categories/{id}', [CategoryController::class, 'delete'])->name('delete.category');
 
         Route::prefix('subcategory')->group(function() {
             Route::get('/', [SubCategoryController::class, 'subcategory'])->name('subcategory');
-            Route::post('/add', [SubCategoryController::class, 'add_subcategory'])->name('add.subcategory');
+            Route::post('/store-subcategory', [SubCategoryController::class, 'store'])->name('store.subcategory');
             Route::get('/subcategories', [SubCategoryController::class, 'subcategories'])->name('subcategories');
-            Route::get('/delete/{id}', [SubCategoryController::class, 'delete_subcategory'])->name('delete.subcategory');
+            Route::get('/delete-subcategories/{id}', [SubCategoryController::class, 'delete'])->name('delete.subcategory');
         });
     });
 
+    Route::prefix('product')->group(function() {
+        Route::get('/', [ProductController::class, 'product'])->name('product');
+        Route::post('/store-product', [ProductController::class, 'store'])->name('store.product');
+        Route::get('/products', [ProductController::class, 'products'])->name('products');
+        Route::get('/delete-product/{id}', [ProductController::class, 'delete'])->name('delete.product');
+    });
 });
+Route::post('/get-subcategory', [ProductController::class, 'get_subcategory']);

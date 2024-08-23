@@ -1,5 +1,6 @@
 @extends('layouts.backend_master')
 
+
 @section('content')
     <div class="row">
         <!-- chart caard section start -->
@@ -93,7 +94,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/vegetable.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/vegetable.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Vegetables & Fruit</h6>
@@ -126,7 +128,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/breakfast.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/breakfast.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Breakfast</h6>
@@ -137,7 +140,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/frozen.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/frozen.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Frozen Foods</h6>
@@ -159,7 +163,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/pet.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/pet.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Pet Food</h6>
@@ -170,7 +175,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/vegetable.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/vegetable.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Vegetables & Fruit</h6>
@@ -181,7 +187,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/cup.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/cup.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Beverages</h6>
@@ -192,7 +199,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/meats.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/meats.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Meats & Seafood</h6>
@@ -203,7 +211,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/breakfast.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/breakfast.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Breakfast</h6>
@@ -214,7 +223,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/frozen.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/frozen.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Frozen Foods</h6>
@@ -225,7 +235,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/milk.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/milk.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Milk & Dairies</h6>
@@ -236,7 +247,8 @@
                         <div>
                             <div class="dashboard-category">
                                 <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/pet.svg" class="img-fluid" alt="">
+                                    <img src="{{ asset('backend') }}/assets/svg/pet.svg" class="img-fluid"
+                                        alt="">
                                 </a>
                                 <a href="javascript:void(0)" class="category-name">
                                     <h6>Pet Food</h6>
@@ -277,9 +289,8 @@
                     <div class="best-selling-box d-sm-flex d-none">
                         <span>Short By:</span>
                         <div class="dropdown">
-                            <button class="btn p-0 dropdown-toggle" type="button"
-                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                data-bs-auto-close="true">Today</button>
+                            <button class="btn p-0 dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" data-bs-auto-close="true">Today</button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -292,7 +303,8 @@
                 <div class="card-body p-0">
                     <div>
                         <div class="table-responsive">
-                            <table class="best-selling-table w-image
+                            <table
+                                class="best-selling-table w-image
                             w-image
                             w-image table border-0">
                                 <tbody>
@@ -445,9 +457,8 @@
                     <div class="best-selling-box d-sm-flex d-none">
                         <span>Short By:</span>
                         <div class="dropdown">
-                            <button class="btn p-0 dropdown-toggle" type="button"
-                                id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                data-bs-auto-close="true">Today</button>
+                            <button class="btn p-0 dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                data-bs-toggle="dropdown" data-bs-auto-close="true">Today</button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>

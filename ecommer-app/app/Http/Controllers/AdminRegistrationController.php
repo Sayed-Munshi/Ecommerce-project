@@ -16,9 +16,9 @@ class AdminRegistrationController extends Controller
     {
         $request->validate([
             'name' => 'required|min:3|max:80',
-            'email' => 'required|min:10|max:200',
+            'email' => 'required|min:10|max:200|email',
             'password' => 'required|min:6|max:20',
-            'password_confirmation' => 'required_with:password|same:password|min:6|max:20'
+            'password_confirmation' => 'required_with:password|same:password|min:6'
         ]);
 
         User::insert([

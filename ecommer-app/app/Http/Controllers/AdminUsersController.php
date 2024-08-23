@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminUsersController extends Controller
 {
@@ -12,7 +15,11 @@ class AdminUsersController extends Controller
     */
     function admin_customers()
     {
-        return view('backend.users.customers');
+        $customers = User::where('role', 'CUSTOMER')->latest()->get();
+
+        return view('backend.users.customers', [
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -20,7 +27,10 @@ class AdminUsersController extends Controller
     */
     function admin_sellers()
     {
-        return view('backend.users.sellers');
+        $sellers = User::where('role', 'SELLER')->latest()->get();
+        return view('backend.users.sellers', [
+            'sellers' => $sellers
+        ]);
     }
 
     /**
@@ -28,7 +38,10 @@ class AdminUsersController extends Controller
     */
     function admin_admins()
     {
-        $admins = User::where('role', 'ADMIN')->latest()->get();
+        $currentUser = Auth::user()->id;
+        $admins = User::where('role', 'ADMIN')
+        ->where('id', '!=', $currentUser)
+        ->latest()->get();
 
         return view('backend.users.admins', [
             'admins' => $admins,
@@ -38,10 +51,27 @@ class AdminUsersController extends Controller
     /**
      * Deleting admin
     */
-    function delete_admin($id)
+    function delete($id)
     {
-        User::find($id)->delete();
+        // dd('here');
+        try{
+            $user = User::find($id);
+            if($user){
+                if($user->photo) {
+                    $current_photo = storage_path("images/user_photos/".$user->photo);
 
-        return back()->with('success', "User deleted successfully!");
+                    Storage::disk('public')->delete($current_photo);
+                }
+
+                $isDelete = User::find($id)->delete();
+
+                if($isDelete){
+                    return back()->with('success', "User deleted successfully!");
+                }
+            }
+            return back()->with('error', "Something went wrong");
+        }catch(Exception $ex){
+            return back()->with('error', "Error: ". $ex->getMessage());
+        }
     }
 }

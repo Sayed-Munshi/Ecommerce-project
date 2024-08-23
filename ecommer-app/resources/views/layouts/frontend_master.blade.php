@@ -22,7 +22,8 @@
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
 
     <!-- bootstrap css -->
-    <link id="rtl-link" rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/vendors/bootstrap.css">
+    <link id="rtl-link" rel="stylesheet" type="text/css"
+        href="{{ asset('frontend') }}/assets/css/vendors/bootstrap.css">
 
     <!-- wow css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/animate.min.css">
@@ -35,7 +36,12 @@
     <link id="color-link" rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/style.css">
 
     <!-- Custom CSS  -->
-     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/custom/header.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/custom/header.css">
+    <style>
+        .logout-anchor {
+            cursor: pointer;
+        }
+    </style>
 
     @stack('css')
 </head>
@@ -67,7 +73,8 @@
                                 </span>
                             </button>
                             <a href="{{ route('home') }}" class="web-logo nav-logo d-xl-none">
-                                <img src="{{ asset('frontend') }}/assets/images/logo/1.png" class="img-fluid blur-up lazyload" alt="">
+                                <img src="{{ asset('frontend') }}/assets/images/logo/1.png"
+                                    class="img-fluid blur-up lazyload" alt="">
                             </a>
 
                             <div class="middle-box">
@@ -98,7 +105,8 @@
                                         <span class="input-group-text">
                                             <i data-feather="search" class="font-light"></i>
                                         </span>
-                                        <input type="text" class="form-control search-type" placeholder="Search here..">
+                                        <input type="text" class="form-control search-type"
+                                            placeholder="Search here..">
                                         <span class="input-group-text close-search">
                                             <i data-feather="x" class="font-light"></i>
                                         </span>
@@ -129,7 +137,8 @@
                                         <div class="onhover-dropdown header-badge">
                                             <button type="button" class="btn p-0 position-relative header-wishlist">
                                                 <i data-feather="shopping-cart"></i>
-                                                <span class="position-absolute top-0 start-100 translate-middle badge">2
+                                                <span
+                                                    class="position-absolute top-0 start-100 translate-middle badge">2
                                                     <span class="visually-hidden">unread messages</span>
                                                 </span>
                                             </button>
@@ -138,7 +147,8 @@
                                                 <ul class="cart-list">
                                                     <li class="product-box-contain">
                                                         <div class="drop-cart">
-                                                            <a href="./pages/product-left-thumbnail.html" class="drop-image">
+                                                            <a href="./pages/product-left-thumbnail.html"
+                                                                class="drop-image">
                                                                 <img src="{{ asset('frontend') }}/assets/images/vegetable/product/1.png"
                                                                     class="blur-up lazyload" alt="">
                                                             </a>
@@ -157,7 +167,8 @@
 
                                                     <li class="product-box-contain">
                                                         <div class="drop-cart">
-                                                            <a href="./pages/product-left-thumbnail.html" class="drop-image">
+                                                            <a href="./pages/product-left-thumbnail.html"
+                                                                class="drop-image">
                                                                 <img src="{{ asset('frontend') }}/assets/images/vegetable/product/2.png"
                                                                     class="blur-up lazyload" alt="">
                                                             </a>
@@ -182,8 +193,10 @@
                                                 </div>
 
                                                 <div class="button-group">
-                                                    <a href="./pages/cart.html" class="btn btn-sm cart-button">View Cart</a>
-                                                    <a href="./pages/checkout.html" class="btn btn-sm cart-button theme-bg-color
+                                                    <a href="./pages/cart.html" class="btn btn-sm cart-button">View
+                                                        Cart</a>
+                                                    <a href="./pages/checkout.html"
+                                                        class="btn btn-sm cart-button theme-bg-color
                                                     text-white">Checkout</a>
                                                 </div>
                                             </div>
@@ -196,7 +209,7 @@
                                             </div>
                                             <div class="delivery-detail">
                                                 <h6>Hello,</h6>
-                                                @if(Auth::user())
+                                                @if (Auth::user())
                                                     <h5>{{ Auth::user()->name }}</h5>
                                                 @else
                                                     <h5>My Account</h5>
@@ -207,15 +220,31 @@
                                         <div class="onhover-div onhover-div-login">
                                             <ul class="user-box-name">
                                                 @if (Auth::user())
-                                                <li class="product-box-contain">
-                                                    <a href="{{ route('dashboard') }}">Dashboard</a>
-                                                </li>
+                                                    @if (Auth::user()->role == 'CUSTOMER')
+                                                        <li class="product-box-contain">
+                                                            <a href="{{ route('user.profile') }}">Profile</a>
+                                                        </li>
+                                                        <li class="product-box-contain">
+                                                            <form method="POST" action="{{ route('logout') }}">
+                                                                @csrf
+
+                                                                <a class="logout-anchor" :href="route('logout')"
+                                                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                                                    Log out
+                                                                </a>
+                                                            </form>
+                                                        </li>
+                                                    @else
+                                                        <li class="product-box-contain">
+                                                            <a href="{{ route('dashboard') }}">Dashboard</a>
+                                                        </li>
+                                                    @endif
                                                 @else
                                                     <li class="product-box-contain">
                                                         <a href="{{ route('login') }}">Log In</a>
                                                     </li>
                                                     <li class="product-box-contain">
-                                                        <a href="">Sign Up</a>
+                                                        <a href="{{ route('customer.signup') }}">Sign Up</a>
                                                     </li>
                                                 @endif
                                             </ul>
@@ -243,7 +272,8 @@
 
             <li class="mobile-category">
                 <a href="javascript:void(0)">
-                    <i class="iconly-Category icli js-link "  data-bs-toggle="offcanvas" data-bs-target="#primaryMenu"></i>
+                    <i class="iconly-Category icli js-link " data-bs-toggle="offcanvas"
+                        data-bs-target="#primaryMenu"></i>
                     <span>Category</span>
                 </a>
             </li>
@@ -271,12 +301,14 @@
                 <aside class="sidebar-col">
                     <div class="category-menu">
                         <a href="{{ route('home') }}" class="web-logo nav-logo">
-                            <img src="{{ asset('frontend') }}/assets/images/logo/1.png" class="img-fluid blur-up lazyload" alt="">
+                            <img src="{{ asset('frontend') }}/assets/images/logo/1.png"
+                                class="img-fluid blur-up lazyload" alt="">
                         </a>
                         <ul>
                             <li>
                                 <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/vegetable.svg" class="blur-up lazyload" alt="">
+                                    <img src="{{ asset('frontend') }}/assets/svg/1/vegetable.svg"
+                                        class="blur-up lazyload" alt="">
                                     <h5>
                                         <a href="#">Popular Items</a>
                                     </h5>
@@ -284,7 +316,8 @@
                             </li>
                             <li>
                                 <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/cup.svg" class="blur-up lazyload" alt="">
+                                    <img src="{{ asset('frontend') }}/assets/svg/1/cup.svg" class="blur-up lazyload"
+                                        alt="">
                                     <h5>
                                         <a href="#burger">Breakfast</a>
                                     </h5>
@@ -292,7 +325,8 @@
                             </li>
                             <li>
                                 <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/frozen.svg" class="blur-up lazyload" alt="">
+                                    <img src="{{ asset('frontend') }}/assets/svg/1/frozen.svg"
+                                        class="blur-up lazyload" alt="">
                                     <h5>
                                         <a href="#pizza">Lunch</a>
                                     </h5>
@@ -300,7 +334,8 @@
                             </li>
                             <li>
                                 <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/meats.svg" class="blur-up lazyload" alt="">
+                                    <img src="{{ asset('frontend') }}/assets/svg/1/meats.svg"
+                                        class="blur-up lazyload" alt="">
                                     <h5>
                                         <a href="#Dinner">Dinner</a>
                                     </h5>
@@ -308,16 +343,18 @@
                             </li>
                             <li>
                                 <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/breakfast.svg" class="blur-up lazyload" alt="">
+                                    <img src="{{ asset('frontend') }}/assets/svg/1/breakfast.svg"
+                                        class="blur-up lazyload" alt="">
                                     <h5>
                                         <a href="#">Snacks</a>
                                     </h5>
                                 </div>
                             </li>
-                            
+
                             <li>
                                 <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/drink.svg" class="blur-up lazyload" alt="">
+                                    <img src="{{ asset('frontend') }}/assets/svg/1/drink.svg"
+                                        class="blur-up lazyload" alt="">
                                     <h5>
                                         <a href="#">Cold Drinks</a>
                                     </h5>
@@ -325,7 +362,8 @@
                             </li>
                             <li>
                                 <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/grocery.svg" class="blur-up lazyload" alt="">
+                                    <img src="{{ asset('frontend') }}/assets/svg/1/grocery.svg"
+                                        class="blur-up lazyload" alt="">
                                     <h5>
                                         <a href="#">Grocery</a>
                                     </h5>
@@ -333,20 +371,21 @@
                             </li>
                             <li>
                                 <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/milk.svg" class="blur-up lazyload" alt="">
+                                    <img src="{{ asset('frontend') }}/assets/svg/1/milk.svg" class="blur-up lazyload"
+                                        alt="">
                                     <h5>
                                         <a href="#">Milk & Dairies</a>
                                     </h5>
                                 </div>
                             </li>
-                           
+
                         </ul>
                     </div>
                 </aside>
 
                 <div class="content-col">
                     @yield('content')
-                     
+
                     <!-- Footer Start -->
                     <footer class="section-t-space footer-section-2">
                         <div class="container-fluid">
@@ -354,9 +393,11 @@
                                 <div class="row g-md-4 gy-sm-5 gy-2 p-sm-3">
                                     <div class="col-xxl-3 col-xl-4 col-sm-6">
                                         <a href="index.html" class="foot-logo">
-                                            <img src=".{{ asset('frontend') }}/assets/images/logo/3.png" class="img-fluid" alt="">
+                                            <img src=".{{ asset('frontend') }}/assets/images/logo/3.png"
+                                                class="img-fluid" alt="">
                                         </a>
-                                        <p class="information-text">it is a long established fact that a reader will be distracted
+                                        <p class="information-text">it is a long established fact that a reader will be
+                                            distracted
                                             by the readable content.</p>
                                         <ul class="social-icon">
                                             <li>
@@ -390,12 +431,14 @@
                                             <ul>
                                                 <li>
                                                     <a href="https://play.google.com/store/apps" target="_blank">
-                                                        <img src=".{{ asset('frontend') }}/assets/images/playstore.svg" class="blur-up lazyload" alt="">
+                                                        <img src=".{{ asset('frontend') }}/assets/images/playstore.svg"
+                                                            class="blur-up lazyload" alt="">
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a href="https://www.apple.com/in/app-store/" target="_blank">
-                                                        <img src=".{{ asset('frontend') }}/assets/images/appstore.svg" class="blur-up lazyload" alt="">
+                                                        <img src=".{{ asset('frontend') }}/assets/images/appstore.svg"
+                                                            class="blur-up lazyload" alt="">
                                                     </a>
                                                 </li>
                                             </ul>
@@ -415,7 +458,7 @@
                                                 <a href="pages/contact-us.html" class="footer-contain-2">
                                                     <i class="fas fa-angle-right"></i>Contact Us</a>
                                             </li>
-                                           
+
                                         </ul>
                                     </div>
 
@@ -448,7 +491,7 @@
                                                 <a href="javascript:void(0)">
                                                     <div class="inform-box flex-start-box">
                                                         <i data-feather="map-pin"></i>
-                                                        <p>Fastkart Online ,  Mirpur DHOS 325</p>
+                                                        <p>Fastkart Online , Mirpur DHOS 325</p>
                                                     </div>
                                                 </a>
                                             </li>
@@ -491,19 +534,24 @@
                                 <div class="right-footer">
                                     <ul class="payment-box">
                                         <li>
-                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/visa.png" alt="">
+                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/visa.png"
+                                                alt="">
                                         </li>
                                         <li>
-                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/discover.png" alt="">
+                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/discover.png"
+                                                alt="">
                                         </li>
                                         <li>
-                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/american.png" alt="">
+                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/american.png"
+                                                alt="">
                                         </li>
                                         <li>
-                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/master-card.png" alt="">
+                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/master-card.png"
+                                                alt="">
                                         </li>
                                         <li>
-                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/giro-pay.png" alt="">
+                                            <img src=".{{ asset('frontend') }}/assets/images/icon/paymant/giro-pay.png"
+                                                alt="">
                                         </li>
                                     </ul>
                                 </div>
@@ -566,6 +614,9 @@
     <!-- WOW js -->
     <script src="{{ asset('frontend') }}/assets/js/wow.min.js"></script>
     <script src="{{ asset('frontend') }}/assets/js/custom-wow.js"></script>
+
+    {{-- Page Js --}}
+    @stack('js')
 
     <!-- script js -->
     <script src="{{ asset('frontend') }}/assets/js/script.js"></script>

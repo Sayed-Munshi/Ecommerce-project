@@ -7,7 +7,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProfileSettingsController extends Controller
 {
@@ -26,37 +27,40 @@ class ProfileSettingsController extends Controller
     {
         $request->validate([
             'name' => 'required|min:4|max:80',
-            'email' => 'required|min:10|max:200',
+            'email' => ['required','min:10','max:200', Rule::unique('users')->ignore(Auth::id()),],
             'photo' => 'image|max:1024'
         ]);
 
         if($request->photo) {
             $photo = $request->photo;
             $extension = $photo->extension();
-            $photo_name = "profile_photo"."-".Auth::id().".".$extension;
-            $upload_path = "uploads/users_photo/admin/";
+            $photo_name = Auth::id()."-".random_int(100, 10000).".".$extension;
+            $upload_path = "images/user_photos/".$photo_name;
 
             if(Auth::user()->photo) {
-                $current_photo = public_path($upload_path.Auth::user()->photo);
-                unlink($current_photo);
+                $current_photo = storage_path("images/user_photos/".Auth::user()->photo);
 
-                Image::read($photo)->save(public_path($upload_path.$photo_name));
-                
+                if(Storage::exists($current_photo)){
+                    Storage::disk('public')->delete($current_photo);
+                }
+
+                Storage::disk('public')->put($upload_path, file_get_contents($photo));
+
                 User::find(Auth::id())->update([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'photo' => $photo_name,
+                    'photo' => $upload_path,
                     'updated_at' => Carbon::now()
                 ]);
 
                 return back()->with('info_success', "Profile info updated successfully!");
             }else {
-                Image::read($photo)->save(public_path($upload_path.$photo_name));
-                
+                Storage::disk('public')->put($upload_path, file_get_contents($photo));
+
                 User::find(Auth::id())->update([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'photo' => $photo_name,
+                    'photo' => $upload_path,
                     'updated_at' => Carbon::now()
                 ]);
 
