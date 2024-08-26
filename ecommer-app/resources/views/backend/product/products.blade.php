@@ -52,7 +52,12 @@
                                                 </div>
                                             </td>
 
-                                            <td>{{ $product->sell_price }}</td>
+                                            <td>
+                                                @if ($product->discount_type)
+                                                    <small class="text-primary">After Discount</small>
+                                                @endif
+                                                {{ $product->calculation_price }}
+                                            </td>
 
                                             <td>
                                                 <img width="80"

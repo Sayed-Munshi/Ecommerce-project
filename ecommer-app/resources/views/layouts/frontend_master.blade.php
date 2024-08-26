@@ -46,7 +46,7 @@
     @stack('css')
 </head>
 
-<body class="theme-color-4 bg-gradient-color">
+<body class="theme-color-4">
 
     <!-- Loader Start -->
     {{-- <div class="fullpage-loader">
@@ -60,7 +60,7 @@
     <!-- Loader End -->
 
     <!-- Header Start -->
-    <header class="fixed-header position-sticky">
+    <header class="fixed-header">
         <div class="top-nav top-header">
             <div class="container-fluid-xs">
                 <div class="row">
@@ -78,7 +78,7 @@
                             </a>
 
                             <div class="middle-box">
-                                <div class="location-box">
+                                {{-- <div class="location-box">
                                     <button class="btn location-button" data-bs-toggle="modal"
                                         data-bs-target="#locationModal">
                                         <span class="location-arrow">
@@ -87,7 +87,7 @@
                                         <span class="locat-name">Your Location</span>
                                         <i class="fa-solid fa-angle-down"></i>
                                     </button>
-                                </div>
+                                </div> --}}
 
                                 <!-- <div class="search-box">
                                     <div class="input-group">
@@ -133,75 +133,89 @@
                                             </div>
                                         </a>
                                     </li>
+
+                                    {{-- Cart --}}
                                     <li class="right-side">
                                         <div class="onhover-dropdown header-badge">
                                             <button type="button" class="btn p-0 position-relative header-wishlist">
                                                 <i data-feather="shopping-cart"></i>
-                                                <span
-                                                    class="position-absolute top-0 start-100 translate-middle badge">2
-                                                    <span class="visually-hidden">unread messages</span>
-                                                </span>
+                                                @if (!App\Models\Cart::where('user_id', Auth::id())->get()->count() == 0)
+                                                    <span
+                                                        class="position-absolute top-0 start-100 translate-middle badge">{{ App\Models\Cart::where('user_id', Auth::id())->get()->count() }}
+                                                        <span class="visually-hidden">unread messages</span>
+                                                    </span>
+                                                @endif
                                             </button>
 
                                             <div class="onhover-div">
                                                 <ul class="cart-list">
-                                                    <li class="product-box-contain">
-                                                        <div class="drop-cart">
-                                                            <a href="./pages/product-left-thumbnail.html"
-                                                                class="drop-image">
-                                                                <img src="{{ asset('frontend') }}/assets/images/vegetable/product/1.png"
-                                                                    class="blur-up lazyload" alt="">
-                                                            </a>
+                                                    @php
+                                                        $subTotal = 0;
+                                                    @endphp
+                                                    @forelse (App\Models\Cart::where('user_id', Auth::id())->latest()->get() as $item)
+                                                        <li class="product-box-contain w-100">
+                                                            <div class="drop-cart justify-content-between">
+                                                                <div class="d-flex gap-2 align-items-center">
+                                                                    <a href="{{ route('single.product', $item->rel_to_product->slug) }}"
+                                                                        class="drop-image">
+                                                                        <img src="{{ url('/') . Storage::url($item->rel_to_product->thumbnail_image) }}"
+                                                                            class="blur-up lazyload"
+                                                                            alt="{{ $item->rel_to_product->product_name }}">
+                                                                    </a>
+                                                                    <div class="drop-contain">
+                                                                        <a
+                                                                            href="{{ route('single.product', $item->rel_to_product->slug) }}">
+                                                                            <h5>{{ str($item->rel_to_product->product_name)->words(3) }}
+                                                                            </h5>
+                                                                        </a>
+                                                                        <h6>
+                                                                            <span>{{ $item->quantity }} x</span>
+                                                                            <span>
+                                                                                &pound;{{ $item->rel_to_product->calculation_price }}
+                                                                            </span>
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
 
-                                                            <div class="drop-contain">
-                                                                <a href="./pages/product-left-thumbnail.html">
-                                                                    <h5>Fantasy Crunchy Choco Chip Cookies</h5>
-                                                                </a>
-                                                                <h6><span>1 x</span> $80.58</h6>
-                                                                <button class="close-button close_button">
+                                                                <a href="{{ route('delete.cart', $item->id) }}">
                                                                     <i class="fa-solid fa-xmark"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="product-box-contain">
-                                                        <div class="drop-cart">
-                                                            <a href="./pages/product-left-thumbnail.html"
-                                                                class="drop-image">
-                                                                <img src="{{ asset('frontend') }}/assets/images/vegetable/product/2.png"
-                                                                    class="blur-up lazyload" alt="">
-                                                            </a>
-
-                                                            <div class="drop-contain">
-                                                                <a href="./pages/product-left-thumbnail.html">
-                                                                    <h5>Peanut Butter Bite Premium Butter Cookies 600 g
-                                                                    </h5>
                                                                 </a>
-                                                                <h6><span>1 x</span> $25.68</h6>
-                                                                <button class="close-button close_button">
-                                                                    <i class="fa-solid fa-xmark"></i>
-                                                                </button>
                                                             </div>
-                                                        </div>
-                                                    </li>
+                                                        </li>
+                                                        @php
+                                                            $subTotal +=
+                                                                $item->rel_to_product->calculation_price *
+                                                                $item->quantity;
+                                                        @endphp
+                                                    @empty
+                                                        <li class="product-box-contain w-100 text-center">
+                                                            <p>No item added to the cart!</p>
+                                                        </li>
+                                                    @endforelse
+                                                    @php
+                                                        session([
+                                                            'sub_total' => $subTotal,
+                                                        ]);
+                                                    @endphp
                                                 </ul>
 
                                                 <div class="price-box">
                                                     <h5>Total :</h5>
-                                                    <h4 class="theme-color fw-bold">$106.58</h4>
+                                                    <h4 class="theme-color fw-bold">&pound;{{ $subTotal }}</h4>
                                                 </div>
 
                                                 <div class="button-group">
-                                                    <a href="./pages/cart.html" class="btn btn-sm cart-button">View
+                                                    <a href="{{ route('cart') }}" class="btn btn-sm cart-button">View
                                                         Cart</a>
-                                                    <a href="./pages/checkout.html"
+                                                    <a href="{{ route('checkout') }}"
                                                         class="btn btn-sm cart-button theme-bg-color
                                                     text-white">Checkout</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
+
+                                    {{-- User --}}
                                     <li class="right-side onhover-dropdown">
                                         <div class="delivery-login-box">
                                             <div class="delivery-icon">
@@ -305,80 +319,18 @@
                                 class="img-fluid blur-up lazyload" alt="">
                         </a>
                         <ul>
-                            <li>
-                                <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/vegetable.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>
-                                        <a href="#">Popular Items</a>
-                                    </h5>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/cup.svg" class="blur-up lazyload"
-                                        alt="">
-                                    <h5>
-                                        <a href="#burger">Breakfast</a>
-                                    </h5>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/frozen.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>
-                                        <a href="#pizza">Lunch</a>
-                                    </h5>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/meats.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>
-                                        <a href="#Dinner">Dinner</a>
-                                    </h5>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/breakfast.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>
-                                        <a href="#">Snacks</a>
-                                    </h5>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/drink.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>
-                                        <a href="#">Cold Drinks</a>
-                                    </h5>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/grocery.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>
-                                        <a href="#">Grocery</a>
-                                    </h5>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="category-list">
-                                    <img src="{{ asset('frontend') }}/assets/svg/1/milk.svg" class="blur-up lazyload"
-                                        alt="">
-                                    <h5>
-                                        <a href="#">Milk & Dairies</a>
-                                    </h5>
-                                </div>
-                            </li>
-
+                            @foreach (App\Models\Category::all() as $category)
+                                <li>
+                                    <div class="category-list">
+                                        <img src="{{ url('/') . Storage::url($category->icon) }}"
+                                            class="blur-up lazyload" alt="">
+                                        <h5>
+                                            <a
+                                                href="{{ url('/') }}#{{ $category->id . '-' . $category->name }}">{{ ucwords($category->name) }}</a>
+                                        </h5>
+                                    </div>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </aside>

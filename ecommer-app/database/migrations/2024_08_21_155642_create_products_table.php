@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('product_name');
+            $table->string('slug');
             $table->integer('category_id');
             $table->integer('subcategory_id');
             $table->integer('purchase_price');
             $table->enum('discount_type', ['fixed', 'percentage'])->nullable();
             $table->integer('discount_amount')->nullable();
             $table->integer('sell_price');
+            $table->integer('calculation_price')->nullable();
             $table->longText('description');
             $table->longText('additional_description');
             $table->string('thumbnail_image');

@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubCategory extends Model
+class OrderList extends Model
 {
     use HasFactory;
 
     /**
-     * Making relation
+     * Relation with order table
     */
-    public function rel_to_category() {
-        return $this->belongsTo(Category::class, 'category_id');
+    public function rel_to_order()
+    {
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }

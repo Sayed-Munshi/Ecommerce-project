@@ -176,7 +176,7 @@
                             <div class="w-100 mb-3">
                                 <label class="form-label-title" for="discount_amount">Discount Amount</label>
                                 <input name="discount_amount" id="discount_amount" class="form-control" type="number"
-                                    placeholder="Discount amount" value="{{ old('discount_amount') }}">
+                                    placeholder="Fixed amount / percentage number" value="{{ old('discount_amount') }}">
 
                                 @error('discount_amount')
                                     <span class="text-danger">{{ $message }}</span>
@@ -233,7 +233,7 @@
                         <div class="mb-3">
                             <label class="form-label-title" for="description">Description</label>
                             <textarea name="description" id="description" class="form-control" cols="30" rows="5"
-                                placeholder="Description"></textarea>
+                                placeholder="Description">{!! old('description') !!}</textarea>
 
                             @error('description')
                                 <span class="text-danger">{{ $message }}</span>
@@ -243,7 +243,7 @@
                         <div class="mb-3">
                             <label class="form-label-title" for="additional_description">Additional Description</label>
                             <textarea name="additional_description" id="additional_description" class="form-control" cols="30"
-                                rows="5" placeholder="Additional Description"></textarea>
+                                rows="5" placeholder="Additional Description">{!! old('additional_description') !!}</textarea>
 
                             @error('additional_description')
                                 <span class="text-danger">{{ $message }}</span>
