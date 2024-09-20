@@ -90,6 +90,43 @@
     <section class="cart-section section-b-space">
         <div class="container-fluid">
             <div class="row g-sm-4 g-3">
+                {{-- track order btn  --}}
+                <div class="col-12">
+                    <div class="summery-box">
+                        <div class="summery-header">
+                            {{-- left side show 'Order Summary' and right side show 'Track Order' button --}}
+                            <h3>Order Summary</h3>
+                            <a href="{{ route('order.track', $order_detail->order_id) }}" class="btn btn-sm cart-button theme-bg-color text-white" style="background-color: #e0baba !important; color: #333 !important;">
+                                Track Order <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <ul class="summery-contain">
+                            <li>
+                                <h4>Order ID</h4>
+                                <h4 class="price">{{ $order_detail->order_id }}</h4>
+                            </li>
+
+                            <li>
+                                <h4>Order Date</h4>
+                                <h4 class="price">{{ $order_detail->created_at->format('d M Y') }}</h4>
+                            </li>
+
+                            <li>
+                                <h4>Order Status</h4>
+                                <h4 class="price">{{ $order_detail->status }}</h4>
+                            </li>
+                            <li>
+                                <h4>Payment Type</h4>
+                                <h4 class="price">{{ $order_detail->payment_type }}</h4>
+                            </li>
+                            <li>
+                                <h4>Address</h4>
+                                <h4 class="price">{{ $shipping_detail->ship_address }}</h4>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="col-xxl-9 col-lg-8">
                     <div class="cart-table order-table order-table-2">
                         <div class="table-responsive">

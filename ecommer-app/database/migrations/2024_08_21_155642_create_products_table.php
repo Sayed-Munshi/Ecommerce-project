@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('user_id');
             $table->string('product_name');
             $table->string('slug');
-            $table->integer('category_id');
-            $table->integer('subcategory_id');
+            $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('subcategory_id')->constrained('sub_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('purchase_price');
             $table->enum('discount_type', ['fixed', 'percentage'])->nullable();
             $table->integer('discount_amount')->nullable();
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->longText('description');
             $table->longText('additional_description');
             $table->string('thumbnail_image');
+            $table->foreignId('vendor_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

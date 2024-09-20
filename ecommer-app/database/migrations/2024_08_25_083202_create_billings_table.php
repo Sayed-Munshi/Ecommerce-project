@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('billings', function (Blueprint $table) {
             $table->id();
             $table->string('order_id');
-            $table->integer('customer_id');
+            $table->foreignId('customer_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->string('email');
             $table->integer('phone');

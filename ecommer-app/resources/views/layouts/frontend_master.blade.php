@@ -8,7 +8,7 @@
     <meta name="description" content="Fastkart">
     <meta name="keywords" content="Fastkart">
     <meta name="author" content="Fastkart">
-    <link rel="icon" href="{{ asset('frontend') }}/assets/images/favicon/6.png" type="image/x-icon">
+    <link rel="icon" href="{{ asset('frontend/assets/images/favicon/6.png') }}" type="image/x-icon">
     <title>On-deliveryX</title>
 
     <!-- Google font -->
@@ -20,23 +20,24 @@
         rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
 
     <!-- bootstrap css -->
     <link id="rtl-link" rel="stylesheet" type="text/css"
-        href="{{ asset('frontend') }}/assets/css/vendors/bootstrap.css">
+        href="{{ asset('frontend/assets/css/vendors/bootstrap.css') }}">
 
     <!-- wow css -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/animate.min.css">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/animate.min.css') }}">
 
     <!-- Iconly css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/bulk-style.css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/vendors/animate.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/bulk-style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/animate.css') }}">
 
     <!-- Template css -->
-    <link id="color-link" rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/style.css">
+    <link id="color-link" rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/style.css') }}">
 
     <!-- Custom CSS  -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/custom/header.css">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom/header.css') }}">
     <style>
         .logout-anchor {
             cursor: pointer;
@@ -78,25 +79,41 @@
                             </a>
 
                             <div class="middle-box">
-                                {{-- <div class="location-box">
-                                    <button class="btn location-button" data-bs-toggle="modal"
+                                <div class="location-box">
+                                    {{-- <button class="btn location-button" data-bs-toggle="modal"
                                         data-bs-target="#locationModal">
                                         <span class="location-arrow">
                                             <i data-feather="map-pin"></i>
                                         </span>
                                         <span class="locat-name">Your Location</span>
                                         <i class="fa-solid fa-angle-down"></i>
-                                    </button>
-                                </div> --}}
+                                    </button> --}}
 
-                                <!-- <div class="search-box">
+                                    {{-- select dorpdown for vendor location --}}
+                                    {{-- vendors --}}
+
+                                    <select class="btn location-button" aria-label="Default select example">
+                                        <option selected disabled>Select Vendor</option>
+                                        @foreach (App\Models\vendor::all() as $vendor)
+                                            <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                        @endforeach
+                                    </select>
+
+                                </div>
+
+                                <div class="search-box position-relative">
                                     <div class="input-group">
-                                        <input type="search" class="form-control" placeholder="I'm searching for...">
-                                        <button class="btn bg-theme" type="button" id="button-addon2">
+                                        <input type="search" class="form-control" placeholder="I'm searching for..." id="search-input">
+                                        <button class="btn bg-theme" type="button" id="search-button">
                                             <i data-feather="search"></i>
                                         </button>
                                     </div>
-                                </div> -->
+
+                                    <!-- Search Results Dropdown (Hidden by default) -->
+                                    <div id="search-results" class="search-results position-absolute w-100 bg-white" style="display: none; z-index: 1000; max-height: 300px; overflow-y: auto;">
+                                        <!-- Search results will be appended here -->
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="rightside-box">
@@ -344,8 +361,8 @@
                             <div class="main-footer">
                                 <div class="row g-md-4 gy-sm-5 gy-2 p-sm-3">
                                     <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                        <a href="index.html" class="foot-logo">
-                                            <img src=".{{ asset('frontend') }}/assets/images/logo/3.png"
+                                        <a href="{{ route('home')}}" class="foot-logo">
+                                            <img src="{{ asset('frontend/assets/images/logo/3.png') }}"
                                                 class="img-fluid" alt="">
                                         </a>
                                         <p class="information-text">it is a long established fact that a reader will be
@@ -403,11 +420,11 @@
                                         </div>
                                         <ul class="footer-list footer-contact mb-sm-0 mb-3">
                                             <li>
-                                                <a href="pages/about-us.html" class="footer-contain-2">
+                                                <a href="{{ route('about.us')}}" class="footer-contain-2">
                                                     <i class="fas fa-angle-right"></i>About Us</a>
                                             </li>
                                             <li>
-                                                <a href="pages/contact-us.html" class="footer-contain-2">
+                                                <a href="{{ route('contact.us')}}" class="footer-contain-2">
                                                     <i class="fas fa-angle-right"></i>Contact Us</a>
                                             </li>
 
@@ -420,16 +437,12 @@
                                         </div>
                                         <ul class="footer-list footer-contact mb-sm-0 mb-3">
                                             <li>
-                                                <a href="pages/order-success.html" class="footer-contain-2">
+                                                <a href="{{ route('user.profile')}}" class="footer-contain-2">
                                                     <i class="fas fa-angle-right"></i>Your Order</a>
                                             </li>
                                             <li>
-                                                <a href="pages/user-dashboard.html" class="footer-contain-2">
+                                                <a href="{{ route('user.profile')}}" class="footer-contain-2">
                                                     <i class="fas fa-angle-right"></i>Your Account</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages/order-tracking.html" class="footer-contain-2">
-                                                    <i class="fas fa-angle-right"></i>Track Orders</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -465,15 +478,6 @@
                                                     </div>
                                                 </a>
                                             </li>
-
-                                            <li>
-                                                <a href="javascript:void(0)">
-                                                    <div class="inform-box">
-                                                        <i data-feather="printer"></i>
-                                                        <p>Fax: 123456</p>
-                                                    </div>
-                                                </a>
-                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -481,7 +485,7 @@
 
                             <div class="sub-footer section-small-space">
                                 <div class="left-footer">
-                                    <p>&copy; 2024, All Rights Reserved By Fastkart</p>
+                                    <p>&copy; 2024, All Rights Reserved By Sayed Munshi</p>
                                 </div>
                                 <div class="right-footer">
                                     <ul class="payment-box">
@@ -532,40 +536,43 @@
     <!-- Bg overlay End -->
 
     <!-- latest jquery-->
-    <script src="{{ asset('frontend') }}/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('frontend/assets/js/jquery-3.6.0.min.js') }}"></script>
 
     <!-- jquery ui-->
-    <script src="{{ asset('frontend') }}/assets/js/jquery-ui.min.js"></script>
+    <script src="{{ asset('frontend/assets/js/jquery-ui.min.js') }}"></script>
 
     <!-- Bootstrap js-->
-    <script src="{{ asset('frontend') }}/assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/bootstrap/bootstrap-notify.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/bootstrap/popper.min.js"></script>
+    <script src="{{ asset('frontend/assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/bootstrap/bootstrap-notify.min.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/bootstrap/popper.min.js') }}"></script>
 
     <!-- feather icon js-->
-    <script src="{{ asset('frontend') }}/assets/js/feather/feather.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/feather/feather-icon.js"></script>
+    <script src="{{ asset('frontend/assets/js/feather/feather.min.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/feather/feather-icon.js') }}"></script>
 
     <!-- Lazyload Js -->
-    <script src="{{ asset('frontend') }}/assets/js/lazysizes.min.js"></script>
+    <script src="{{ asset('frontend/assets/js/lazysizes.min.js') }}"></script>
 
     <!-- Slick js-->
-    <script src="{{ asset('frontend') }}/assets/js/slick/slick.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/slick/slick-animation.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/slick/custom_slick.js"></script>
+    <script src="{{ asset('frontend/assets/js/slick/slick.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/slick/slick-animation.min.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/slick/custom_slick.js') }}"></script>
 
     <!-- Auto Height Js -->
-    <script src="{{ asset('frontend') }}/assets/js/auto-height.js"></script>
+    <script src="{{ asset('frontend/assets/js/auto-height.js') }}"></script>
 
     <!-- Fly Cart Js -->
-    <script src="{{ asset('frontend') }}/assets/js/fly-cart.js"></script>
+    <script src="{{ asset('frontend/assets/js/fly-cart.js') }}"></script>
 
     <!-- Quantity js -->
-    <script src="{{ asset('frontend') }}/assets/js/quantity-2.js"></script>
+    <script src="{{ asset('frontend/assets/js/quantity-2.js') }}"></script>
 
     <!-- WOW js -->
-    <script src="{{ asset('frontend') }}/assets/js/wow.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/custom-wow.js"></script>
+    <script src="{{ asset('frontend/assets/js/wow.min.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/custom-wow.js') }}"></script>
+
+    <!-- Sweetalert2 js -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- Page Js --}}
     @stack('js')
@@ -575,6 +582,167 @@
 
     <!-- theme setting js -->
     <script src="{{ asset('frontend') }}/assets/js/theme-setting.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Check if there are vendor options
+            var firstVendor = $('.location-button option:not([disabled])').eq(0);
+            if (firstVendor.length) {
+                // Set the first vendor as selected
+                firstVendor.prop('selected', true);
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            console.log('Document ready');
+            $('.location-button').on('change', function() {
+                console.log('Vendor selected');
+                var vendorId = $(this).val(); // Get the selected vendor ID
+
+                // Perform the AJAX request to fetch products by vendor
+                $.ajax({
+                    url: '{{ route('vendor.products') }}', // The route to fetch products
+                    type: 'GET',
+                    data: {
+                        vendor_id: vendorId
+                    },
+                    success: function(response) {
+                        // Replace the product list with the new products
+                        $('#products-container').html(response);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText); // Log errors
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var typingTimer; // Timer identifier
+            var doneTypingInterval = 500; // Time in ms (500ms = 0.5 seconds)
+
+            // Trigger the search when typing in the input box
+            $('#search-input').on('input', function() {
+                clearTimeout(typingTimer); // Clear the previous timer
+                var searchQuery = $(this).val(); // Get the search query
+
+                // Set a new timer to wait until the user stops typing
+                typingTimer = setTimeout(function() {
+                    // If there's a search query, perform the AJAX request
+                    if (searchQuery.length > 0) {
+                        $.ajax({
+                            url: '{{ route('search.products') }}', // The route to fetch products
+                            type: 'GET',
+                            data: {
+                                search_query: searchQuery,
+                                vendor_id: $('.location-button').val()
+                            },
+                            success: function(response) {
+                                // Show the search results dropdown and fill it with the response
+                                $('#search-results').html(response).show();
+                            },
+                            error: function(xhr) {
+                                console.log(xhr.responseText); // Log errors
+                            }
+                        });
+                    } else {
+                        // Hide the search results if the input is empty
+                        $('#search-results').hide();
+                    }
+                }, doneTypingInterval);
+            });
+
+            // Hide the search results when clicking outside of the search box
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.search-box').length) {
+                    $('#search-results').hide();
+                }
+            });
+
+            // Keep showing search results when clicking inside the search box
+            $('#search-input').on('click', function() {
+                if ($('#search-results').html().trim() !== '') {
+                    $('#search-results').show(); // Show only if there are search results
+                }
+            });
+
+
+            // Listen for clicks on the plus and minus buttons
+            $('.qty-left-minus, .qty-right-plus').on('click', function() {
+                var input = $(this).closest('.input-group').find('.qty-input');
+                var currentQuantity = parseInt(input.val());
+                console.log('Current Quantity: ' + currentQuantity);
+                var newQuantity = currentQuantity;
+
+                if (newQuantity < 1) {
+                    newQuantity = 1;
+                }
+
+                // Update the quantity input value
+                // input.val(newQuantity);
+
+                // Get the product ID from the data attribute
+                var productId = input.data('product-id');
+                console.log('Product ID: ' + productId);
+
+                // Perform AJAX request to add the updated quantity to the cart
+                addToCart(productId, newQuantity);
+            });
+
+            // Function to send AJAX request for adding to the cart
+            function addToCart(productId, quantity) {
+                // check user login or not
+                @if (!Auth::check())
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Please login to add product to cart!',
+                    });
+                    return;
+                @endif
+                $.ajax({
+                    url: '{{ route('cart.add') }}',  // Change this to your actual "Add to Cart" route
+                    type: 'POST',
+                    data: {
+                        product_id: productId,
+                        quantity: quantity,
+                        _token: '{{ csrf_token() }}'  // Include CSRF token for security
+                    },
+                    success: function(response) {
+                        // Handle the success response (e.g., update cart count, show notification, etc.)
+                        console.log('Product added to cart successfully!');
+
+                        // Show a success notification
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Product added to cart successfully!',
+                            timer: 1000,
+                        });
+                    },
+                    error: function(xhr) {
+                        // Handle any errors
+                        console.log('Error adding product to cart: ' + xhr.responseText);
+
+                        // Show an error notification
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error adding product to cart!',
+                        });
+                    }
+                });
+            }
+        });
+
+    </script>
+
+
+
 </body>
 
 </html>

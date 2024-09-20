@@ -29,14 +29,14 @@ class CartCheckoutController extends Controller
     }
 
     /**
-     * Making order
+     * place order
     */
     function checkout_store(CheckoutRequest $request)
     {
         $order_id = Auth::id().random_int(1, 10).time().date(format: 'dmy');
 
-        if($request->shipping_type == 'ship_to_user') {
-            if($request->payment_type == 'cash') {
+        if($request->payment_type == 'cash') {
+            if($request->shipping_type == 'ship_to_user') {
                 $order_table_id = Order::insertGetId([
                     'order_id' => $order_id,
                     'customer_id' => Auth::id(),
@@ -94,11 +94,7 @@ class CartCheckoutController extends Controller
                 Mail::to($request->email)->send(new OrderInvoiceMail($order_id));
 
                 return redirect(route('order.placed'))->with('order_id', $order_id);
-            }elseif($request->payment_type == 'stripe') {
-
-            }
-        }elseif($request->shipping_type == 'ship_to_someone') {
-            if($request->payment_type == 'cash') {
+            }elseif($request->shipping_type == 'ship_to_someone') {
                 $order_table_id = Order::insertGetId([
                     'order_id' => $order_id,
                     'customer_id' => Auth::id(),
@@ -156,9 +152,13 @@ class CartCheckoutController extends Controller
                 Mail::to($request->email)->send(new OrderInvoiceMail($order_id));
 
                 return redirect(route('order.placed'))->with('order_id', $order_id);
-            }elseif($request->payment_type == 'stripe') {
-
+            }else {
+                return back();
             }
+        }elseif($request->payment_type == 'stripe') {
+            $data = $request->all();
+
+            return redirect(route('stripe.payment'))->with('data', $data);
         }else {
             return back();
         }

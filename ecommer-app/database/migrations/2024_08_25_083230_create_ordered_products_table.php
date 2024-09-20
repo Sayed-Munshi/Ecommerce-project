@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('ordered_products', function (Blueprint $table) {
             $table->id();
             $table->string('order_id');
-            $table->integer('customer_id');
-            $table->integer('seller_id');
-            $table->integer('product_id');
+            $table->foreignId('customer_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('price');
             $table->integer('quantity');
-            $table->string('review')->nullable();
+            $table->longText('review')->nullable();
             $table->integer('star')->nullable();
             $table->timestamps();
         });

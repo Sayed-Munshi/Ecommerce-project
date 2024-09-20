@@ -115,7 +115,7 @@
                                 <i class="ri-search-line"></i>
                             </span>
                         </li>
-                        <li class="onhover-dropdown">
+                        {{-- <li class="onhover-dropdown">
                             <div class="notification-box">
                                 <i class="ri-notification-line"></i>
                                 <span class="badge rounded-pill badge-theme">4</span>
@@ -153,7 +153,7 @@
                                     <a class="btn btn-primary" href="javascript:void(0)">Check all notification</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
 
                         {{-- Mode --}}
                         <li>
@@ -250,27 +250,40 @@
                                     </a>
                                 </li>
 
-                                {{-- Users --}}
+                                @if (!(Auth::user()->role === 'SELLER'))
                                 <li class="sidebar-list">
-                                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
-                                        <i class="ri-user-3-line"></i>
-                                        <span>Users</span>
+                                    <a class="sidebar-link sidebar-title link-nav" href="{{ route('admin.vendors') }}">
+                                        <i class="ri-store-3-line"></i>
+                                        <span>Vendors</span>
                                     </a>
-                                    <ul class="sidebar-submenu">
-                                        <li>
-                                            <a href="{{ route('admin.customers') }}">Customer</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('admin.sellers') }}">Seller</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('admin.admins') }}">Admin</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('admin.registration') }}">Add Admin</a>
-                                        </li>
-                                    </ul>
                                 </li>
+                                @endif
+
+                                {{-- Users --}}
+                                @if (!(Auth::user()->role === 'SELLER'))
+                                    <li class="sidebar-list">
+                                        <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                                            <i class="ri-user-3-line"></i>
+                                            <span>Users</span>
+                                        </a>
+                                        <ul class="sidebar-submenu">
+                                            <li>
+                                                <a href="{{ route('admin.customers') }}">Customer</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('admin.sellers') }}">Seller</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('admin.admins') }}">Admin</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('admin.registration') }}">Add Admin</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                @endif
+
+
 
                                 {{-- Products --}}
                                 <li class="sidebar-list">
@@ -280,33 +293,55 @@
                                     </a>
 
                                     <ul class="sidebar-submenu">
-                                        <li>
-                                            <a href="{{ route('categories') }}">Category List</a>
-                                        </li>
+                                        @if (!(Auth::user()->role === 'SELLER'))
+                                            <li>
+                                                <a href="{{ route('categories') }}">Category List</a>
+                                            </li>
 
-                                        <li>
-                                            <a href="{{ route('category') }}">Add Category</a>
-                                        </li>
+                                            <li>
+                                                <a href="{{ route('category') }}">Add Category</a>
+                                            </li>
 
-                                        <li>
-                                            <a href="{{ route('subcategories') }}">Sub Category List</a>
-                                        </li>
+                                            <li>
+                                                <a href="{{ route('subcategories') }}">Sub Category List</a>
+                                            </li>
 
-                                        <li>
-                                            <a href="{{ route('subcategory') }}">Add Sub Category</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('products') }}">Product List</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('product') }}">Add Product</a>
-                                        </li>
+                                            <li>
+                                                <a href="{{ route('subcategory') }}">Add Sub Category</a>
+                                            </li>
+                                        @endif
+                                        @if (Auth::user()->role === 'SELLER')
+                                            <li>
+                                                <a href="{{ route('products') }}">Product List</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('product') }}">Add Product</a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </li>
 
+                                {{-- Orders --}}
+                                @if (Auth::user()->role === 'SELLER' || Auth::user()->role === 'ADMIN')
+                                    <li class="sidebar-list">
+                                        <a class="linear-icon-link sidebar-link sidebar-title"
+                                            href="javascript:void(0)">
+                                            <i class="ri-archive-line"></i>
+                                            <span>Orders</span>
+                                        </a>
+
+                                        <ul class="sidebar-submenu">
+                                            <li>
+                                                <a href="{{ route('orders.list') }}">Order List</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                @endif
+
                                 {{-- Report --}}
-                                <li class="sidebar-list">
-                                    <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
+                                {{-- <li class="sidebar-list">
+                                    <a class="linear-icon-link sidebar-link sidebar-title"
+                                        href="javascript:void(0)">
                                         <i class="ri-focus-3-line"></i>
                                         <span>Seller Sales</span>
                                     </a>
@@ -315,7 +350,7 @@
                                             <a href="">Shops</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
 
@@ -352,7 +387,7 @@
                     <footer class="footer">
                         <div class="row">
                             <div class="col-md-12 footer-copyright text-center">
-                                <p class="mb-0">&copy; 2024, All Rights Reserved By Fastkart</p>
+                                <p class="mb-0">&copy; 2024, All Rights Reserved By Sayed Munshi</p>
                             </div>
                         </div>
                     </footer>

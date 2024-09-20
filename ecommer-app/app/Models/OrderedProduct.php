@@ -9,6 +9,11 @@ class OrderedProduct extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'review',
+        'star',
+    ];
+
     /**
      * Relation with product table
     */
@@ -23,5 +28,14 @@ class OrderedProduct extends Model
     public function rel_to_user()
     {
         return $this->belongsTo(User::class, 'seller_id');
+    }
+    public function rel_to_user_get_customer()
+    {
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

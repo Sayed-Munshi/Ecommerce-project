@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +22,45 @@ class CartController extends Controller
             'total_items' => $total_items,
         ]);
     }
+
+    public function addToCart(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity');
+
+        if($quantity == '0') {
+            return response()->json(['error' => 'Please add item quantity!']);
+        }
+
+        if(Cart::where('product_id', $productId)->exists()) {
+            // update quantity
+            Cart::updateOrCreate([
+                'product_id' => $productId,
+                'user_id' => Auth::id(),
+            ], [
+                'quantity' => $quantity,
+                'updated_at' => now(),
+            ]);
+
+            return response()->json(['success' => true]);
+        }
+
+        $product = Product::find($productId);
+        if(!$product) {
+            return response()->json(['error' => 'Product not found!']);
+        }
+
+        Cart::insert([
+            'user_id' => Auth::id(),
+            'seller_id' => $product->user_id,
+            'product_id' => $productId,
+            'quantity' => $quantity,
+            'created_at' => now(),
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
 
     /**
      * Storing product to cart

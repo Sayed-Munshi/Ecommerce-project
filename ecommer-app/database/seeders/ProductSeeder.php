@@ -27,6 +27,7 @@ class ProductSeeder extends Seeder
                 'additional_description' => '<p>'.fake()->realText(350).'</p>',
                 'thumbnail_image' => 'images/products/thumbnail/temp/1.png',
                 'created_at' => now(),
+                'vendor_id' => '1',
             ],
             [
                 'user_id' => '3',
@@ -41,6 +42,7 @@ class ProductSeeder extends Seeder
                 'additional_description' => '<p>'.fake()->realText(350).'</p>',
                 'thumbnail_image' => 'images/products/thumbnail/temp/2.jpg',
                 'created_at' => now(),
+                'vendor_id' => '1',
             ],
             [
                 'user_id' => '3',
@@ -55,6 +57,7 @@ class ProductSeeder extends Seeder
                 'additional_description' => '<p>'.fake()->realText(350).'</p>',
                 'thumbnail_image' => 'images/products/thumbnail/temp/3.jpg',
                 'created_at' => now(),
+                'vendor_id' => '2',
             ],
         ]);
 

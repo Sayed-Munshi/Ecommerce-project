@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_id');
-            $table->integer('customer_id');
+            $table->foreignId('customer_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('charge');
             $table->integer('sub_total');
             $table->integer('total');
             $table->enum('payment_type', ['cash', 'stripe']);
             $table->enum('status', ['placed', 'received', 'canceled', 'shipped', 'delivered']);
-            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

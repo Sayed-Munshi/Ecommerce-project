@@ -4,32 +4,37 @@
 @section('content')
     <div class="row">
         <!-- chart caard section start -->
-        <div class="col-sm-6 col-xxl-3 col-lg-6">
-            <div class="main-tiles border-5 border-0  card-hover card o-hidden">
-                <div class="custome-1-bg b-r-4 card-body">
-                    <div class="media align-items-center static-top-widget">
-                        <div class="media-body p-0">
-                            <span class="m-0">Total Revenue</span>
-                            <h4 class="mb-0 counter">$6659
-                                <span class="badge badge-light-primary grow">
-                                    <i data-feather="trending-up"></i>8.5%</span>
-                            </h4>
-                        </div>
-                        <div class="align-self-center text-center">
-                            <i class="ri-database-2-line"></i>
+        @if (!(Auth::user()->role === 'SELLER'))
+            <div class="col-sm-6 col-xxl-3 col-lg-6">
+                <div class="main-tiles border-5 border-0  card-hover card o-hidden">
+                    <div class="custome-1-bg b-r-4 card-body">
+                        <div class="media align-items-center static-top-widget">
+                            <div class="media-body p-0">
+                                <span class="m-0">Total Revenue</span>
+                                <h4 class="mb-0 counter">&pound;0
+                                    <span class="badge badge-light-primary grow">
+                                        <i data-feather="trending-up"></i>8.5%</span>
+                                </h4>
+                            </div>
+                            <div class="align-self-center text-center">
+                                <i class="ri-database-2-line"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="col-sm-6 col-xxl-3 col-lg-6">
             <div class="main-tiles border-5 card-hover border-0 card o-hidden">
                 <div class="custome-2-bg b-r-4 card-body">
                     <div class="media static-top-widget">
                         <div class="media-body p-0">
-                            <span class="m-0">Total Orders</span>
-                            <h4 class="mb-0 counter">9856
+                            <span class="m-0">
+                                {{ Auth::user()->role == 'SELLER' ? 'Ordered Items' : 'Total Orders' }}
+                            </span>
+                            <h4 class="mb-0 counter">
+                                {{ Auth::user()->role == 'SELLER' ? $seller_orders->count() : $orders->count() }}
                                 <span class="badge badge-light-danger grow">
                                     <i data-feather="trending-down"></i>8.5%</span>
                             </h4>
@@ -48,8 +53,9 @@
                     <div class="media static-top-widget">
                         <div class="media-body p-0">
                             <span class="m-0">Total Products</span>
-                            <h4 class="mb-0 counter">893
-                                <a href="./product/add-new-product.html" class="badge badge-light-secondary grow">
+                            <h4 class="mb-0 counter">
+                                {{ Auth::user()->role == 'SELLER' ? $seller_products->count() : $products->count() }}
+                                <a href="{{ route('store.product') }}" class="badge badge-light-secondary grow">
                                     ADD NEW</a>
                             </h4>
                         </div>
@@ -62,25 +68,27 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xxl-3 col-lg-6">
-            <div class="main-tiles border-5 card-hover border-0 card o-hidden">
-                <div class="custome-4-bg b-r-4 card-body">
-                    <div class="media static-top-widget">
-                        <div class="media-body p-0">
-                            <span class="m-0">Total Customers</span>
-                            <h4 class="mb-0 counter">4.6k
-                                <span class="badge badge-light-success grow">
-                                    <i data-feather="trending-down"></i>8.5%</span>
-                            </h4>
-                        </div>
+        @if (!(Auth::user()->role === 'SELLER'))
+            <div class="col-sm-6 col-xxl-3 col-lg-6">
+                <div class="main-tiles border-5 card-hover border-0 card o-hidden">
+                    <div class="custome-4-bg b-r-4 card-body">
+                        <div class="media static-top-widget">
+                            <div class="media-body p-0">
+                                <span class="m-0">Total Customers</span>
+                                <h4 class="mb-0 counter">{{ $customers->count() }}
+                                    <span class="badge badge-light-success grow">
+                                        <i data-feather="trending-down"></i>8.5%</span>
+                                </h4>
+                            </div>
 
-                        <div class="align-self-center text-center">
-                            <i class="ri-user-add-line"></i>
+                            <div class="align-self-center text-center">
+                                <i class="ri-user-add-line"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="col-12">
             <div class="card o-hidden card-hover">
@@ -91,170 +99,19 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="category-slider no-arrow">
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/vegetable.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Vegetables & Fruit</h6>
-                                </a>
+                        @foreach ($categories as $category)
+                            <div>
+                                <div class="dashboard-category">
+                                    <a href="javascript:void(0)" class="category-image">
+                                        <img src="{{ url('/') . Storage::url($category->icon) }}" class="img-fluid"
+                                            alt="">
+                                    </a>
+                                    <a href="javascript:void(0)" class="category-name">
+                                        <h6>{{ ucwords($category->name) }}</h6>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/cup.svg" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Beverages</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/meats.svg" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Meats & Seafood</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/breakfast.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Breakfast</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/frozen.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Frozen Foods</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/milk.svg" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Milk & Dairies</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/pet.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Pet Food</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/vegetable.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Vegetables & Fruit</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/cup.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Beverages</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/meats.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Meats & Seafood</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/breakfast.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Breakfast</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/frozen.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Frozen Foods</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/milk.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Milk & Dairies</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('backend') }}/assets/svg/pet.svg" class="img-fluid"
-                                        alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Pet Food</h6>
-                                </a>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -263,7 +120,7 @@
 
 
         <!-- Earning chart star-->
-        <div class="col-xl-6">
+        {{-- <div class="col-xl-6">
             <div class="card o-hidden card-hover">
                 <div class="card-header border-0 pb-1">
                     <div class="card-header-title">
@@ -274,12 +131,11 @@
                     <div id="report-chart"></div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Earning chart  end-->
 
-
         <!-- Best Selling Product Start -->
-        <div class="col-xl-6 col-md-12">
+        {{-- <div class="col-xl-6 col-md-12">
             <div class="card o-hidden card-hover">
                 <div class="card-header card-header-top card-header--2 px-0 pt-0">
                     <div class="card-header-title">
@@ -442,12 +298,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Best Selling Product End -->
 
-
         <!-- Recent orders start-->
-        <div class="col-xl-6">
+        {{-- <div class="col-xl-6">
             <div class="card o-hidden card-hover">
                 <div class="card-header card-header-top card-header--2 px-0 pt-0">
                     <div class="card-header-title">
@@ -637,11 +492,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Recent orders end-->
 
         <!-- Earning chart star-->
-        <div class="col-xl-6">
+        {{-- <div class="col-xl-6">
             <div class="card o-hidden card-hover">
                 <div class="card-header border-0 mb-0">
                     <div class="card-header-title">
@@ -652,12 +507,11 @@
                     <div id="bar-chart-earning"></div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Earning chart end-->
 
-
         <!-- Transactions start-->
-        <div class="col-xxl-4 col-md-6">
+        {{-- <div class="col-xxl-4 col-md-6">
             <div class="card o-hidden card-hover">
                 <div class="card-header border-0">
                     <div class="card-header-title">
@@ -741,11 +595,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Transactions end-->
 
         <!-- visitors chart start-->
-        <div class="col-xxl-4 col-md-6">
+        {{-- <div class="col-xxl-4 col-md-6">
             <div class="h-100">
                 <div class="card o-hidden card-hover">
                     <div class="card-header border-0">
@@ -762,12 +616,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- visitors chart end-->
 
 
         <!-- To Do List start-->
-        <div class="col-xxl-4 col-md-6">
+        {{-- <div class="col-xxl-4 col-md-6">
             <div class="card o-hidden card-hover">
                 <div class="card-header border-0">
                     <div class="card-header-title">
@@ -833,7 +687,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- To Do List end-->
     </div>
 @endsection

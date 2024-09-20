@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('order_lists', function (Blueprint $table) {
             $table->id();
             $table->integer('order_id');
-            $table->integer('customer_id');
+            $table->foreignId('customer_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

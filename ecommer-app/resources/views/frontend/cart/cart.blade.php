@@ -73,7 +73,7 @@
                                                                 </button>
                                                                 <input class="form-control input-number qty-input"
                                                                     type="text" name="quantity[{{ $cart->id }}]"
-                                                                    value="{{ $cart->quantity }}">
+                                                                    value="{{ $cart->quantity }}" data-product-id="{{ $cart->product_id }}">
                                                                 <button type="button" class="btn qty-right-plus"
                                                                     data-type="plus" data-field="">
                                                                     <i class="fa fa-plus ms-0"></i>

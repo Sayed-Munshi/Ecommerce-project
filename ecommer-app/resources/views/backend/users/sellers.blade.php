@@ -59,7 +59,7 @@
                                             <td>
                                                 <ul>
                                                     <li>
-                                                        <a href="{{ route('delete.users', $seller->id) }}">
+                                                        <a href="{{ route('delete.user', $seller->id) }}">
                                                             <i class="ri-delete-bin-line"></i>
                                                         </a>
                                                     </li>

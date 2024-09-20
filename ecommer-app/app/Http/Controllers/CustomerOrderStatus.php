@@ -41,37 +41,25 @@ class CustomerOrderStatus extends Controller
                 'shipping_detail' => $shipping_detail,
             ]);
         }else {
-            return redirect(route('order.list'));
+            return redirect(route('user.profile'));
         }
-    }
-
-    /**
-     * Order List
-    */
-    function order_list()
-    {
-        $orders = OrderList::where('customer_id', Auth::id())->latest()->get();
-
-        return view('frontend.order.list', [
-            'orders' => $orders
-        ]);
     }
 
     /**
      * Order Status
     */
-    function order_status($order_id)
+    function order_status($id)
     {
-        $order_details = Order::where('order_id', $order_id)->get();
+        $order_details = Order::where('order_id', $id)->get();
         $order_detail = '';
         foreach($order_details as $detail) {
             $order_detail = $detail;
         }
 
-        $ordered_products = OrderedProduct::where('order_id', $order_id)->latest()->get();
+        $ordered_products = OrderedProduct::where('order_id', $id)->latest()->get();
         $total_ordered_products = $ordered_products->count();
 
-        $shipping_details = Shipping::where('order_id', $order_id)->get();
+        $shipping_details = Shipping::where('order_id', $id)->get();
         $shipping_detail = '';
         foreach($shipping_details as $detail) {
             $shipping_detail = $detail;
@@ -84,4 +72,12 @@ class CustomerOrderStatus extends Controller
             'shipping_detail' => $shipping_detail,
         ]);
     }
+
+    public function order_track($orderId)
+    {
+        $order = Order::where('order_id', $orderId)->firstOrFail();
+
+        return view('frontend.order.track', compact('order'));
+    }
+
 }
